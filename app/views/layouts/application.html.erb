@@ -8,7 +8,29 @@
 </head>
 <body>
 
+<nav class="navbar navbar-default">
+<a class="navbar-brand" href='/'>Tweenter</a>
+<ul class="nav navbar-nav">
+	<% if current_user %>
+	<li class= "pull-right"><%= link_to "logout", "/logout" %> </li>
+	<li class= "pull-right"><%= link_to "Hello, #{current_user.username}", user_path(current_user) %>  </li>
+	<% else %>
+	<li class= "pull-right"><%= link_to "login", "/login" %> </li>
+
+	<% end %>
+</ul>
+</nav>
+
+<div class="container">
+<% if flash[:info] %>
+	<div class="alert alert-info alert-dismissable">
+	<%=flash[:info]%>
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	</div>
+	<% end %>
+
 <%= yield %>
+</div>
 
 </body>
 </html>

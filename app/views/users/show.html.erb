@@ -1,0 +1,31 @@
+<%= simple_form_for @follow, url: new_user_follow_path(current_user) do |f| %>
+	<%= f.association :leader %>
+	<%= f.association :follower %>
+	<%= f.submit "Follow", class: "btn btn-primary" %>
+	<% end %>
+
+<h2>@<%= @user.username %></h2>
+<h3><%= Time.now.year - @user.year_born %>  years old</h3>
+<% if @user.bio %>
+	<%= @user.bio %>
+<% end %>
+
+<% if current_user %>
+	<%= simple_form_for ([@user, @user.tweents.build]) do |f| %>
+	<%= f.input :body, label: false %>
+	<%= f.submit "Tweent", class: "btn btn-primary" %>
+	<% end %>
+<% end %> 
+
+<h4>Latest Tweents</h4>
+<ul>
+<% @user.tweents.reverse.each do |x| %>
+	
+	<li>
+		<strong><%= @user.username %> </strong>
+		<%= x.body %> 
+		<br>
+		<small><%= time_ago_in_words(x.created_at) unless x.created_at.blank? %> ago</small>
+	</li>
+<% end %>
+</ul>

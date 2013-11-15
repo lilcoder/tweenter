@@ -1,0 +1,7 @@
+<h2>Log in</h2>
+<%= simple_form_for :session do |f| %>
+	<%= f.input :email %>
+	<%= f.input :password %>
+	<br>
+	<%= f.submit "Log In", class: 'btn btn-primary' %>
+<% end %>
