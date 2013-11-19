@@ -14,7 +14,7 @@
 ActiveRecord::Schema.define(version: 20131115034941) do
 
   create_table "follows", force: true do |t|
-    t.integer  "leader_id"
+    t.integer  "user_id"
     t.integer  "follower_id"
     t.datetime "created_at"
     t.datetime "updated_at"

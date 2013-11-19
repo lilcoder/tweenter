@@ -1,7 +1,15 @@
-<h2>Log in</h2>
+<br>
+<div class="form-signin well" >
+<legend class="center">Sign in to Tweenter</legend>
+
 <%= simple_form_for :session do |f| %>
-	<%= f.input :email %>
-	<%= f.input :password %>
+	<%= f.input :email, label: false, placeholder: 'Email', input_html: { class: 'form-control' }  %>
 	<br>
-	<%= f.submit "Log In", class: 'btn btn-primary' %>
+	<%= f.input :password, label: false, placeholder: 'Password', input_html: { class: 'form-control' }  %>
+	<br>
+	<%= f.submit "Sign In", class: 'btn btn-lg btn-primary btn-block' %>
 <% end %>
+<br>
+<%= link_to "Sign up for Tweenter", new_user_path %>
+
+</div>

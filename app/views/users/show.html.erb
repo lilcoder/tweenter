@@ -1,31 +1,82 @@
-<%= simple_form_for @follow, url: new_user_follow_path(current_user) do |f| %>
-	<%= f.association :leader %>
-	<%= f.association :follower %>
+<div class="row">
+	<div class="span12">
+
+<%= simple_form_for @follow, url: user_follows_path(@user) do |f| %>
+	<div class='hidden'><%= f.association :user, label_method: :username %>
+	<%= f.association :follower, label_method: :username %></div>
 	<%= f.submit "Follow", class: "btn btn-primary" %>
 	<% end %>
 
-<h2>@<%= @user.username %></h2>
-<h3><%= Time.now.year - @user.year_born %>  years old</h3>
+<h3>@<%= @user.username %></h3>
+<p><%= Time.now.year - @user.year_born %>  years old</p>
 <% if @user.bio %>
 	<%= @user.bio %>
 <% end %>
 
-<% if current_user %>
-	<%= simple_form_for ([@user, @user.tweents.build]) do |f| %>
-	<%= f.input :body, label: false %>
-	<%= f.submit "Tweent", class: "btn btn-primary" %>
-	<% end %>
-<% end %> 
-
-<h4>Latest Tweents</h4>
+<h4>Followed By</h4>
 <ul>
-<% @user.tweents.reverse.each do |x| %>
-	
-	<li>
-		<strong><%= @user.username %> </strong>
-		<%= x.body %> 
-		<br>
-		<small><%= time_ago_in_words(x.created_at) unless x.created_at.blank? %> ago</small>
-	</li>
-<% end %>
+  <% for user in @user.followers %>
+  <li><%= h user.username %></li>
+  <% end %>  
 </ul>
+
+<h4>Following</h4>
+<ul>
+  <% @user.inverse_follows.each do |x| %>
+  <li><%= x.user.username %></li>
+  <% end %>  
+</ul>
+
+<h4>Feed</h4>
+<ul>
+  <% for user in @user.inverse_followers %>
+  		<li><strong><%= h user.username %></strong></li>
+	  	<% user.tweents.reverse.each do |x| %>
+
+			<li><%= x.body %></li>
+  <% end %>
+  <% end %>  
+</ul>
+
+		<ul class="timeline">
+			<li>
+				<div class="featured-box">
+					<div class="box-content">
+						<% if current_user %>
+							<%= simple_form_for ([@user, @user.tweents.build]) do |f| %>
+							<%= f.input :body, label: false, input_html: { class: 'form-control' } %>
+							<br>
+							<%= f.submit "Tweent!", class: "btn btn-primary" %>
+							
+					</div>
+				</div><% end %>
+						<% end %> 
+			</li>
+		</ul>	
+
+		
+		
+		<ul class="timeline">
+		<% @user.tweents.reverse.each do |x| %>
+		<% if x.body != nil %>
+			<li><div class="thumb">
+					<%= image_tag("history-thumb.png") %>
+				</div>
+				<div class="featured-box">
+					<div class="box-content">
+				<strong>@<%= @user.username %> </strong>
+				<small class="pull-right"><%= time_ago_in_words(x.created_at) unless x.created_at.blank? %> ago</small>
+				<br>
+				<%= x.body %> 
+				<br>
+				
+				</div>
+				</div>
+			</li>
+		<% end %>	
+		<% end %>
+		</ul>
+	</div>
+</div>
+
+

@@ -1,0 +1,13 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+<a class="navbar-brand" href='/'><%= image_tag("tweenter-logo-sm2.png") %></a>
+
+	<ul class="nav navbar-nav">
+		<% if current_user %>
+		<li class= "pull-right"><%= link_to "logout", "/logout" %> </li>
+		<li class= "pull-right"><%= link_to "Hello, #{current_user.username}", user_path(current_user) %>  </li>
+		<% else %>
+		<li class= "pull-right"><%= link_to "Sign In", "/login" %> </li>
+
+		<% end %>
+	</ul>
+</nav>
